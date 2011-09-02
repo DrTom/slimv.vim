@@ -1361,22 +1361,8 @@ function! SlimvIndent( lnum )
     " Find start of current form
     let [l, c] = searchpairpos( '(', '', ')', 'nbW', s:skip_sc, pnum )
     if l == pnum
-        let line = getline( l )
-        let parent = strpart( line, 0, c )
-        if match( parent, '\c(\s*\(flet\|labels\|macrolet\)\s*(\s*(\s*$' ) >= 0
-            " Handle special indentation style for flet, labels, etc.
-            return c + 1
-        endif
-        " Found opening paren in the previous line, let's find out the function name
-        let func = matchstr( line, '\<\k*\>', c )
-        " If it's a keyword, keep the indentation straight
-        if strpart(func, 0, 1) == ':'
-            return c
-        endif
-        if SlimvGetFiletype() == 'clojure' && match( func, 'defn$' ) >= 0
-            " Fix clojure specific indentation issues not handled by the default lisp.vim
-            return c + 1
-        endif
+        " just keep indention tight and simple !!!
+        return c + 1
         " Remove package specification
         let func = substitute(func, '^.*:', '', '')
         if func != '' && g:slimv_swank && s:swank_connected
